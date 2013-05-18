@@ -3,6 +3,8 @@
 import web
 import twitter
 
+import oauth
+
 __author__ = 'james@tomasino.org'
 
 urls = (
