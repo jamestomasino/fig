@@ -1,3 +1,12 @@
+import web
+
+# if you are going to use FileHandler
+#web.config.session_parameters.handler = 'file'
+# set the file prefix
+#web.config.handler_parameters.file_prefix = 'sess'
+# and directory
+#web.config.handler_parameters.file_dir = '/tmp'
+
 class Config:
     REQUEST_TOKEN_URL = 'https://api.twitter.com/oauth/request_token'
     AUTHORIZE_URL = 'https://api.twitter.com/oauth/authorize'
