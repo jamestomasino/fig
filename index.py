@@ -39,23 +39,31 @@ class login:
 class callback:
     def GET(self):
         params = web.input()
-        output = ''
         if hasattr(params, 'denied'):
             return 'Authentication Denied'
-        if hasattr(params, 'oauth_token'):
-            output += 'OAuth Token: %s \n' % params.oauth_token
-        output += 'OAuth Token Secret: %s \n' % config.get_oauth_token_secret();
+
         if hasattr(params, 'oauth_verifier'):
-            output += 'OAuth Verifier: %s \n' % params.oauth_verifier
+            config.set_oauth_verifier(params.oauth_verifier)
 
-        #token = oauth.Token(request_token['oauth_token'],
-                            #request_token['oauth_token_secret'])
-        #token.set_verifier(oauth_verifier)
-        #client = oauth.Client(consumer, token)
+        consumer = oauth.Consumer(
+            key=config.get_app_key(),
+            secret=config.get_app_secret())
+        token = oauth.Token(
+            config.get_oauth_token(),
+            config.get_oauth_token_secret())
+        token.set_verifier(config.get_oauth_verifier())
+        client = oauth.Client(consumer, token)
+        resp, content = client.request(config.ACCESS_TOKEN_URL, "POST")
+        access_token = dict(urlparse.parse_qsl(content))
 
-        #resp, content = client.request(access_token_url, "POST")
-        #access_token = dict(urlparse.parse_qsl(content))
-        return output
+        # Use these credentials from now on
+        config.set_oauth_token(access_token['oauth_token'])
+        config.set_oauth_token_secret(access_token['oauth_token_secret'])
+        config.set_user_id(access_token['user_id'])
+        config.set_screen_name(access_token['screen_name'])
+
+        web.seeother('/')
+        return access_token
 
 class home:
     def GET(self):
@@ -64,9 +72,8 @@ class home:
 
 class logout:
     def GET(self):
-        web.ctx.session.start()
-        web.ctx.session.destroy()
-        web.seeother('/')
+        if 'session' in globals():
+            session.kill()
         return
 
 if __name__ == "__main__":

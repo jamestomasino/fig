@@ -9,6 +9,8 @@ class Config:
     _oauth_token = ''
     _oauth_token_secret = ''
     _oauth_verifier = ''
+    _user_id = ''
+    _screen_name = ''
 
     def __init__(self, session):
         self.session = session
@@ -32,6 +34,10 @@ class Config:
             self._oauth_token_secret = self.session.oauth_token_secret
         if hasattr(self.session, 'oauth_verifier'):
             self._oauth_verifier = self.session.oauth_verifier
+        if hasattr(self.session, 'user_id'):
+            self._user_id = self.session.user_id
+        if hasattr(self.session, 'screen_name'):
+            self._screen_name = self.session.screen_name
 
     def save_all(self):
         self.session.oauth_token = self._oauth_token
@@ -39,7 +45,7 @@ class Config:
         self.session.oauth_verifier = self._oauth_verifier
 
     def is_logged_in(self):
-        if ( self._oauth_verifier != '' and self._oauth_token != ''):
+        if ( self._user_id != '' and self._screen_name != ''):
             return True
         else:
             return False
@@ -67,4 +73,16 @@ class Config:
 
     def get_oauth_verifier(self):
         return self._oauth_verifier
+
+    def set_user_id(self, val):
+        self.session.user_id = self._user_id = val;
+
+    def get_user_id(self):
+        return self._user_id
+
+    def set_screen_name(self, val):
+        self.session.screen_name = self._screen_name = val;
+
+    def get_screen_name(self):
+        return self._screen_name
 
