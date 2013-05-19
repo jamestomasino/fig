@@ -1,36 +1,47 @@
 #!/usr/local/bin/python
 
 import web
-import twitter
+#import twitter
+import urlparse
+import oauth2 as oauth
+#import json
 
-import oauth
+from config import Config
 
 __author__ = 'james@tomasino.org'
 
 urls = (
-    '/', 'index'
+    '/', 'index',
+    '/callback', 'callback'
 )
 
-TEMPLATE = """
-<div class="twitter">
-<span class="twitter-user"><a href="http://twitter.com/%s">%s</a>: </span>
-<span class="twitter-text">%s</span>
-<span class="twitter-relative-created-at"><a href="http://twitter.com/%s/statuses/%s">Posted %s</a></span>
-</div>
-"""
-
-def FetchTwitter(user):
-    assert user
-    statuses = twitter.Api().GetUserTimeline(id=user, count=50)
-    xhtml = ''
-    for i in range(len(statuses)):
-        s = statuses[i]
-        xhtml += TEMPLATE % (s.user.screen_name, s.user.screen_name, s.text, s.user.screen_name, s.id, s.relative_created_at)
-    return xhtml
 
 class index:
+    config = Config()
+
     def GET(self):
-        return FetchTwitter('mr_ino')
+        consumer = oauth.Consumer(key=self.config.APP_KEY,
+                                  secret=self.config.APP_SECRET)
+        client = oauth.Client(consumer)
+        resp, content = client.request(self.config.REQUEST_TOKEN_URL, "GET")
+        if resp['status'] != '200':
+            raise Exception("Invalid response %s." % resp['status'])
+        request_token = dict(urlparse.parse_qsl(content))
+        print
+        print resp
+        print
+        print content
+        print
+        print request_token
+        auth_url = "%s?oauth_token=%s" % (self.config.AUTHORIZE_URL, request_token['oauth_token'])
+        web.seeother(auth_url)
+        return 'Redirecting to Twitter for OAuth: %s' % auth_url
+
+class callback:
+    config = Config()
+
+    def GET(self):
+        return 'Callback.'
 
 if __name__ == "__main__":
     app = web.application(urls, globals())
