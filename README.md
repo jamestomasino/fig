@@ -3,7 +3,7 @@ fig
 
 Simple web-based Twitter client with regex filtering
 
-=== Setup ===
+### Setup ###
 
 1. Create a sqlite database named web.db in the root folder using the following table structure:
 
