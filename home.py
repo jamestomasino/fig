@@ -6,7 +6,7 @@ PAGE_TEMPLATE = """
 
     <head>
         <title>Fig - %s</title>
-        <link rel="stylesheet" href="css/main.css" type="text/css" media="screen" charset="utf-8">
+        <link rel="stylesheet" href="static/css/main.css" type="text/css" media="screen" charset="utf-8">
     </head>
 
     <body>
@@ -15,7 +15,7 @@ PAGE_TEMPLATE = """
         %s
         </div>
 
-        <script type="text/javascript" src="js/main.js"></script>
+        <script type="text/javascript" src="static/js/main.js"></script>
 
     </body>
 

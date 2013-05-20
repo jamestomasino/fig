@@ -1,3 +1,11 @@
+.sass-cache/*
+static/css/main.css
+static/css/main.css.gz
+static/js/main.js
+static/js/main.js.gz
+static/js/preload.js
+static/js/preload.js.gz
+Gemfile.lock
 *.pyc
 config.txt
 web.db
