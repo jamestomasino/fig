@@ -1,6 +1,6 @@
 #.sprocksrc
 ---
-target: ./js
+target: ./static/js
 paths:
 assets:
 - sjs/main.js

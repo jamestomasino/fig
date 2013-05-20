@@ -2,14 +2,51 @@
 @import "compass";
 @import "compass/reset";
 @import "compass/css3";
-@import "compass/typography/vertical_rhythm";
 
-// Plugins
-@import "sassy-buttons";
+body {
+	position: relative;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
 
-// Project
-@import "mixins";
-@import "lib/lib";
-@import "variables";
-@import "layout/layout";
-@import "type/type";
+.tweets {
+	position: relative;
+	display: block;
+	max-width: 800px;
+	margin: 0 auto;
+	color: #383838;
+
+	.tweet{
+		font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+		font-size: 18px;
+		line-height: 1.2em;
+		padding: 10px 0 15px 10px;
+
+		&:nth-of-type(odd) {
+			background-color: #EEE;
+		}
+
+		.twitter-user {
+			font-size: 14px;
+		}
+
+		.twitter-text {
+			display: block;
+		}
+
+		.twitter-relative-created-at {
+			display: block;
+			font-size: 10px;
+		}
+	}
+}
+
+a {
+	color: #9F9F9F;
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}

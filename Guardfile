@@ -10,16 +10,16 @@ guard 'compass' do
 end
 
 guard 'livereload' do
-  watch(%r{^css/(.*)\.css$})
-  watch(%r{^js/(.*)\.js$})
-  watch(%r{^images/(.*)\.(jpg|gif|png)$})
-  watch(%r{.+\.(html?|php|inc)$})
+  watch(%r{^static/css/(.*)\.css$})
+  watch(%r{^static/js/(.*)\.js$})
+  watch(%r{^static/images/(.*)\.(jpg|gif|png)$})
+  watch(%r{.+\.(py|html?|php|inc)$})
 end
 
-guard 'sprockets', :destination => 'js', :asset_paths => ['sjs'], :root_file   => 'sjs/main.js', :minify => false do
+guard 'sprockets', :destination => 'static/js', :asset_paths => ['sjs'], :root_file   => 'sjs/main.js', :minify => false do
   watch(%r{^sjs/.*\.(js|coffee)})
 end
 
-guard 'sprockets', :destination => 'js', :asset_paths => ['sjs'], :root_file   => 'sjs/preload.js', :minify => false do
+guard 'sprockets', :destination => 'static/js', :asset_paths => ['sjs'], :root_file   => 'sjs/preload.js', :minify => false do
   watch(%r{^sjs/.*\.(js|coffee)})
 end

@@ -1,10 +1,10 @@
 .sass-cache/*
-css/main.css
-css/main.css.gz
-js/main.js
-js/main.js.gz
-js/preload.js
-js/preload.js.gz
+static/css/main.css
+static/css/main.css.gz
+static/js/main.js
+static/js/main.js.gz
+static/js/preload.js
+static/js/preload.js.gz
 Gemfile.lock
 *.pyc
 config.txt

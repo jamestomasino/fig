@@ -2,4 +2,4 @@
 # Compile Sass/Compass/Susy Compressed
 compass compile --output-style compressed --no-line-comments --force
 sprocketize
-gzip -9 -c css/main.css > css/main.css.gz 
+gzip -9 -c static/css/main.css > static/css/main.css.gz 
