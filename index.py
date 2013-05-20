@@ -3,11 +3,14 @@
 import web
 import urlparse
 import oauth2 as oauth
+import twitter
 
 from config import Config
+from home import Home
 
 __author__ = 'james@tomasino.org'
 
+web.config.debug = False
 
 class index:
 
@@ -22,8 +25,9 @@ class index:
 
 class login:
     def GET(self):
-        consumer = oauth.Consumer(key=config.get_app_key(),
-                                  secret=config.get_app_secret())
+        consumer = oauth.Consumer(
+            key=config.get_app_key(),
+            secret=config.get_app_secret())
         client = oauth.Client(consumer)
         resp, content = client.request(config.REQUEST_TOKEN_URL, "GET")
         if resp['status'] != '200':
@@ -31,8 +35,9 @@ class login:
         request_token = dict(urlparse.parse_qsl(content))
         config.set_oauth_token(request_token['oauth_token'])
         config.set_oauth_token_secret(request_token['oauth_token_secret'])
-        auth_url = "%s?oauth_token=%s" % (config.AUTHORIZE_URL,
-                                          request_token['oauth_token'])
+        auth_url = "%s?oauth_token=%s" % (
+            config.AUTHORIZE_URL,
+            request_token['oauth_token'])
         web.seeother(auth_url)
         return 'Redirecting to Twitter for OAuth: %s' % auth_url
 
@@ -67,13 +72,18 @@ class callback:
 
 class home:
     def GET(self):
-        return 'Home'
-
+        api = twitter.Api(
+            consumer_key=config.get_app_key(),
+            consumer_secret=config.get_app_secret(),
+            access_token_key=config.get_oauth_token(),
+            access_token_secret=config.get_oauth_token_secret())
+        screen = Home(api, config.get_user_id(), config.get_screen_name())
+        return screen.render();
 
 class logout:
     def GET(self):
         if 'session' in globals():
-            session.kill()
+            session.destroy()
         return
 
 if __name__ == "__main__":
@@ -86,6 +96,8 @@ if __name__ == "__main__":
     )
 
     app = web.application(urls, globals())
+
+    # TODO: Add a test to see if DB exists and create it if needed
 
     if web.config.get('_session') is None:
         db = web.database(dbn='sqlite', db='web.db')

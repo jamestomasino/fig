@@ -1,3 +1,4 @@
+# SELECT COALESCE(MAX(session_id)+1, 0) FROM sessions;
 class Config:
     REQUEST_TOKEN_URL = 'https://api.twitter.com/oauth/request_token'
     AUTHORIZE_URL = 'https://api.twitter.com/oauth/authorize'
